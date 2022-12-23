@@ -1,0 +1,54 @@
+const { gql } = require('apollo-server')
+
+const userSchema = gql`
+    scalar DateTime
+
+    type User {
+        id: ID,
+        nome: String!
+        ativo: Boolean!
+        email: String
+        role: Role!
+        createdAt: DateTime
+    }
+
+    input UserInput {
+        nome: String
+        ativo: Boolean
+        email: String
+        role: RoletType
+        createdAt: DateTime
+    }
+
+    type Role {
+        id: ID!
+        type: RoletType
+    }
+
+    enum RoletType {
+        ESTUDANTE
+        DOCENTE
+        COORDENACAO 
+    }
+
+    type Query {
+        users: [User]
+        user(id: ID!): User! 
+    }
+
+    type Mutation{
+        adicionaUser(
+           user: UserInput
+        ): User!
+
+        atualizaUser(
+            id: ID!,
+            user: UserInput
+        ): User!
+        
+        deletaUser(
+            id: ID!
+        ): ID!
+    }
+`
+module.exports = userSchema
